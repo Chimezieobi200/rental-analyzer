@@ -18,6 +18,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // PDF export is a Pro feature
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('subscription_status')
+      .eq('id', user.id)
+      .single()
+
+    if (profile?.subscription_status !== 'pro') {
+      return NextResponse.json(
+        { error: 'PDF export is a Pro feature. Please upgrade your account.' },
+        { status: 403 }
+      )
+    }
+
     const { inputs, results }: { inputs: PropertyInputs; results: CalculationResults } =
       await req.json()
 
