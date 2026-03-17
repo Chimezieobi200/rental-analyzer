@@ -105,28 +105,38 @@ function NumberInput({
   min?: number
   hasError?: boolean
 }) {
+  if (suffix) {
+    return (
+      <div className={cn('input-group', hasError && 'border-negative-500 shadow-[0_0_0_3px_rgba(220,38,38,0.12)]')}>
+        <input
+          type="number"
+          value={value || ''}
+          onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+          onBlur={onBlur}
+          placeholder={placeholder}
+          step={step}
+          min={min}
+          className="tabular-nums num"
+        />
+        <span className="suffix">{suffix}</span>
+      </div>
+    )
+  }
+
   return (
-    <div className="relative">
-      <input
-        type="number"
-        value={value || ''}
-        onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-        onBlur={onBlur}
-        placeholder={placeholder}
-        step={step}
-        min={min}
-        className={cn(
-          'input-base text-sm tabular-nums num',
-          suffix && 'pr-10',
-          hasError && 'border-negative-400 focus:border-negative-500 focus:shadow-none'
-        )}
-      />
-      {suffix && (
-        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-ink-400">
-          {suffix}
-        </span>
+    <input
+      type="number"
+      value={value || ''}
+      onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+      onBlur={onBlur}
+      placeholder={placeholder}
+      step={step}
+      min={min}
+      className={cn(
+        'input-base text-sm tabular-nums num',
+        hasError && 'border-negative-500'
       )}
-    </div>
+    />
   )
 }
 
@@ -197,7 +207,7 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
     n.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-card">
+    <div className="overflow-hidden rounded-2xl bg-surface shadow-card">
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-ink-100 px-5 py-4">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink-950">
@@ -324,7 +334,7 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                         </select>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         <Controller name="grunderwerbsteuer" control={control} render={({ field }) => (
                           <div>
                             <FieldLabel label="Grunderwerbst." tooltip="3,5% (Bayern) bis 6,5% (NRW)" />

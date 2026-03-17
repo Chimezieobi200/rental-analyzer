@@ -26,9 +26,9 @@ const LABEL_DE: Record<string, string> = {
 }
 
 const scoreArc = (score: number) => {
-  if (score >= 80) return { stroke: '#0F172A', track: '#E2E8F0' }
-  if (score >= 60) return { stroke: '#475569', track: '#E2E8F0' }
-  return { stroke: '#CBD5E1', track: '#F1F5F9' }
+  if (score >= 80) return { stroke: '#16A34A', track: '#DCFCE7' }  // green
+  if (score >= 60) return { stroke: '#D97706', track: '#FEF3C7' }  // amber
+  return { stroke: '#DC2626', track: '#FEE2E2' }                    // red
 }
 
 function generateFactors(
@@ -87,7 +87,9 @@ export function DealScoreWidget({
   const clamped = Math.max(0, Math.min(100, score))
   const r = 52
   const circ = 2 * Math.PI * r
-  const offset = circ - (clamped / 100) * circ
+  const GAUGE = circ * 0.75   // 270° visible arc
+  const GAP   = circ - GAUGE  // 90° gap at bottom
+  const fill  = (clamped / 100) * GAUGE
   const arc = scoreArc(clamped)
 
   const categories = [
@@ -100,28 +102,36 @@ export function DealScoreWidget({
   const { positive, negative } = generateFactors(breakdown, netYield, cashflow, ltv, vacancyRate)
 
   return (
-    <div className="flex flex-col rounded-2xl bg-white shadow-card p-6">
+    <div className="flex flex-col rounded-2xl bg-surface shadow-card p-6">
       <p className="text-[10px] font-semibold uppercase tracking-widest text-ink-400 mb-5">
         Deal Score
       </p>
 
       {/* Ring */}
       <div className="flex items-center justify-center">
-        <div className="relative flex items-center justify-center">
-          <svg width="136" height="136" className="-rotate-90">
-            <circle cx="68" cy="68" r={r} fill="none" stroke={arc.track} strokeWidth="7" />
+        <div className="relative w-[136px] h-[136px] flex items-center justify-center">
+          <svg width="136" height="136" className="rotate-[135deg]">
+            {/* Track – 270° arc */}
+            <circle
+              cx="68" cy="68" r={r}
+              fill="none"
+              stroke={arc.track}
+              strokeWidth="10"
+              strokeDasharray={`${GAUGE} ${GAP}`}
+              strokeLinecap="round"
+            />
+            {/* Fill – score% of 270° */}
             <circle
               cx="68" cy="68" r={r}
               fill="none"
               stroke={arc.stroke}
-              strokeWidth="7"
-              strokeDasharray={circ}
-              strokeDashoffset={offset}
+              strokeWidth="10"
+              strokeDasharray={`${fill} ${circ - fill}`}
               strokeLinecap="round"
               className="transition-all duration-700 ease-out"
             />
           </svg>
-          <div className="absolute flex flex-col items-center leading-none">
+          <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
             <span className="text-4xl font-extrabold num tracking-tight text-ink-900">
               {clamped}
             </span>

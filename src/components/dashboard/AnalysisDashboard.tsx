@@ -127,7 +127,7 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
   /* Empty state */
   if (!results || !inputs) {
     return (
-      <div className="flex min-h-[560px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-ink-200 bg-white">
+      <div className="flex min-h-[560px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-ink-200 bg-surface">
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-ink-100">
           <BarChart3 className="h-7 w-7 text-ink-400" />
         </div>
@@ -165,7 +165,7 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
             'flex items-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-medium transition-all',
             saveSuccess
               ? 'border-positive-200 bg-positive-50 text-positive-700'
-              : 'border-ink-200 bg-white text-ink-600 hover:border-ink-400 hover:text-ink-900 shadow-card'
+              : 'border-ink-200 bg-surface text-ink-600 hover:border-ink-400 hover:text-ink-900 shadow-card'
           )}
         >
           {saveSuccess ? (
@@ -179,7 +179,7 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
       </div>
 
       {/* ── Deal Score + KPIs ───────────────────────────────────── */}
-      <div className="grid gap-4 sm:grid-cols-[220px_1fr]">
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-[220px_1fr]">
         <DealScoreWidget
           score={results.dealScore}
           label={results.dealScoreLabel}
@@ -254,7 +254,7 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
             sub: 'bis Nebenkosten gedeckt',
           },
         ].map(({ icon: Icon, label, value, sub }) => (
-          <div key={label} className="rounded-2xl bg-white p-4 shadow-card">
+          <div key={label} className="rounded-2xl bg-surface p-4 shadow-card">
             <div className="mb-2.5 flex items-center gap-2 text-xs text-ink-500">
               <Icon className="h-3.5 w-3.5" />
               {label}
@@ -266,7 +266,7 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
       </div>
 
       {/* ── Monthly Breakdown ────────────────────────────────────── */}
-      <div className="rounded-2xl bg-white p-5 shadow-card">
+      <div className="rounded-2xl bg-surface p-5 shadow-card">
         <h3 className="mb-4 text-sm font-semibold text-ink-900">Monatliche Übersicht</h3>
         <div className="grid gap-4 sm:grid-cols-2">
 
@@ -340,14 +340,14 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
           { component: <LoanBalanceChart data={results.tenYearProjection} />, label: 'Darlehensstand' },
           { component: <WealthGrowthChart data={results.tenYearProjection} />, label: 'Vermögensentwicklung' },
         ].map(({ component, label }) => (
-          <div key={label} className="rounded-2xl bg-white p-5 shadow-card">
+          <div key={label} className="rounded-2xl bg-surface p-5 shadow-card">
             {component}
           </div>
         ))}
       </div>
 
       {/* ── 10-Year Table ────────────────────────────────────────── */}
-      <div className="overflow-hidden rounded-2xl bg-white shadow-card">
+      <div className="overflow-hidden rounded-2xl bg-surface shadow-card">
         <div className="border-b border-ink-100 px-5 py-4">
           <h3 className="text-sm font-semibold text-ink-900">10-Jahres-Projektion</h3>
         </div>

@@ -57,7 +57,7 @@ export function KPICard({
         'relative rounded-2xl p-5 transition-all duration-200',
         highlight
           ? 'bg-ink-950 shadow-btn-dark'
-          : 'bg-white shadow-card hover:shadow-card-hover hover:-translate-y-0.5'
+          : 'bg-surface shadow-card hover:shadow-card-hover hover:-translate-y-0.5'
       )}
     >
       {/* Header row */}

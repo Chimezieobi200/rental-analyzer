@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        surface: 'var(--surface)',
         brand: {
           50: '#EFF6FF',
           100: '#DBEAFE',
