@@ -22,11 +22,14 @@ import { WealthGrowthChart } from '@/components/charts/WealthGrowthChart'
 import { ScenarioSimulator } from './ScenarioSimulator'
 import { AmortizationTable } from './AmortizationTable'
 import { cn } from '@/lib/utils'
+import { ProGateModal } from '@/components/pricing/ProGateModal'
+import { track } from '@/lib/track'
 
 interface AnalysisDashboardProps {
   results: CalculationResults | null
   inputs: PropertyInputs | null
   isLoading: boolean
+  isPro?: boolean
 }
 
 /* ── Skeleton block ──────────────────────────────────────────── */
@@ -61,10 +64,11 @@ function SkeletonDashboard() {
   )
 }
 
-export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashboardProps) {
+export function AnalysisDashboard({ results, inputs, isLoading, isPro = false }: AnalysisDashboardProps) {
   const [pdfLoading, setPdfLoading] = useState(false)
   const [saveLoading, setSaveLoading] = useState(false)
   const [saveSuccess, setSaveSuccess] = useState(false)
+  const [showProGate, setShowProGate] = useState(false)
 
   const handleSaveAnalysis = async () => {
     if (!results || !inputs) return
@@ -94,6 +98,14 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
 
   const handleDownloadPDF = async () => {
     if (!results || !inputs) return
+
+    if (!isPro) {
+      track('pdf_export_clicked_free_user')
+      setShowProGate(true)
+      return
+    }
+
+    track('pdf_export_clicked_pro_user')
     setPdfLoading(true)
     try {
       const response = await fetch('/api/pdf', {
@@ -101,7 +113,6 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inputs, results }),
       })
-      if (response.status === 403) { alert('PDF-Export ist ein Pro-Feature. Bitte upgraden.'); return }
       if (!response.ok) throw new Error('PDF generation failed')
       const blob = await response.blob()
       const url = URL.createObjectURL(blob)
@@ -224,7 +235,7 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
       </div>
 
       {/* ── AI Deal Analyst ─────────────────────────────────────── */}
-      <AIAnalyst inputs={inputs} results={results} />
+      <AIAnalyst inputs={inputs} results={results} isPro={isPro} />
 
       {/* ── Financial Summary Cards ──────────────────────────────── */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -447,6 +458,11 @@ export function AnalysisDashboard({ results, inputs, isLoading }: AnalysisDashbo
         * Alle Berechnungen sind unverbindlich und dienen nur zur Orientierung. Keine Anlage- oder
         Steuerberatung. Prüfe alle Kennzahlen mit einem Fachberater vor einer Investitionsentscheidung.
       </p>
+
+      {/* Pro Gate Modal */}
+      {showProGate && (
+        <ProGateModal feature="pdf" onClose={() => setShowProGate(false)} />
+      )}
     </div>
   )
 }

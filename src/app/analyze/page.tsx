@@ -5,12 +5,14 @@ import { PropertyInputForm } from '@/components/forms/PropertyInputForm'
 import { AnalysisDashboard } from '@/components/dashboard/AnalysisDashboard'
 import type { PropertyInputs, CalculationResults } from '@/types'
 import { calculateInvestment } from '@/lib/calculations'
+import { useSubscription } from '@/hooks/useSubscription'
 import { TrendingUp } from 'lucide-react'
 
 export default function AnalyzePage() {
   const [results, setResults] = useState<CalculationResults | null>(null)
   const [inputs, setInputs] = useState<PropertyInputs | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
+  const { isPro } = useSubscription()
 
   const handleCalculate = async (formInputs: PropertyInputs) => {
     setIsCalculating(true)
@@ -71,6 +73,7 @@ export default function AnalyzePage() {
               results={results}
               inputs={inputs}
               isLoading={isCalculating}
+              isPro={isPro}
             />
           </div>
         </div>

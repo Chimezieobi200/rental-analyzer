@@ -1,13 +1,15 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Sparkles, ChevronRight, AlertCircle } from 'lucide-react'
+import { Sparkles, ChevronRight, AlertCircle, Crown } from 'lucide-react'
 import type { PropertyInputs, CalculationResults } from '@/types'
 import { cn } from '@/lib/utils'
+import { track } from '@/lib/track'
 
 interface AIAnalystProps {
   inputs: PropertyInputs
   results: CalculationResults
+  isPro?: boolean
 }
 
 type Section = { heading: string; content: string }
@@ -55,12 +57,13 @@ const SECTION_META: Record<string, { color: string; dot: string }> = {
   Empfehlungen:  { color: 'text-brand-400',    dot: 'bg-brand-500' },
 }
 
-export function AIAnalyst({ inputs, results }: AIAnalystProps) {
+export function AIAnalyst({ inputs, results, isPro = false }: AIAnalystProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
   const [rawText, setRawText] = useState('')
   const abortRef = useRef<AbortController | null>(null)
 
   const startAnalysis = async () => {
+    track('ai_analysis_started', { isPro })
     setStatus('loading')
     setRawText('')
     abortRef.current = new AbortController()
@@ -101,7 +104,15 @@ export function AIAnalyst({ inputs, results }: AIAnalystProps) {
               <Sparkles className="h-4 w-4 text-brand-400" />
             </div>
             <div>
-              <p className="text-[13px] font-semibold text-white">KI-Gutachten</p>
+              <div className="flex items-center gap-2">
+                <p className="text-[13px] font-semibold text-white">KI-Gutachten</p>
+                {!isPro && (
+                  <span className="flex items-center gap-1 rounded-full bg-caution-500/10 px-2 py-0.5 text-[10px] font-semibold text-caution-500 ring-1 ring-caution-500/20">
+                    <Crown className="h-2.5 w-2.5" />
+                    Pro
+                  </span>
+                )}
+              </div>
               <p className="text-[11px] text-white/30">Professionelle Analyse in Sekunden</p>
             </div>
           </div>
