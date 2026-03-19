@@ -33,10 +33,10 @@ function SliderField({
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <label className="text-xs font-medium text-ink-600">{label}</label>
+        <label className="text-xs font-medium text-white/60">{label}</label>
         <span className={cn(
           'text-xs font-semibold rounded-md px-1.5 py-0.5 num',
-          value > 0 ? 'bg-negative-50 text-negative-700' : value < 0 ? 'bg-positive-50 text-positive-700' : 'bg-ink-100 text-ink-500'
+          value > 0 ? 'bg-negative-500/10 text-negative-400' : value < 0 ? 'bg-positive-500/10 text-positive-400' : 'bg-white/[0.08] text-white/40'
         )}>
           {formatValue(value)}
         </span>
@@ -51,11 +51,11 @@ function SliderField({
           onChange={(e) => onChange(parseFloat(e.target.value))}
           className="h-1.5 w-full cursor-pointer appearance-none rounded-full"
           style={{
-            background: `linear-gradient(to right, #2563EB ${pct}%, #E2E8F0 0%)`,
+            background: `linear-gradient(to right, #3B82F6 ${pct}%, rgba(255,255,255,0.08) 0%)`,
           }}
         />
       </div>
-      <div className="mt-1 flex justify-between text-[10px] text-ink-400">
+      <div className="mt-1 flex justify-between text-[10px] text-white/30">
         <span>{formatValue(min)}</span>
         <span>{formatValue(max)}</span>
       </div>
@@ -77,28 +77,27 @@ function KPICompare({
   const diff = scenario - base
   const isPositive = diff > 0.005
   const isNegative = diff < -0.005
-
   const Icon = isPositive ? ArrowUpRight : isNegative ? ArrowDownRight : Minus
 
   return (
-    <div className="rounded-xl border border-ink-200 bg-white p-3.5 shadow-sm">
-      <p className="mb-2.5 text-xs text-ink-500">{label}</p>
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.05] p-3.5">
+      <p className="mb-2.5 text-xs text-white/40">{label}</p>
       <div className="flex items-end justify-between gap-2">
         <div>
-          <p className="text-[10px] text-ink-400 mb-0.5">Basis</p>
-          <p className="text-sm font-semibold text-ink-700 num">{format(base)}</p>
+          <p className="text-[10px] text-white/30 mb-0.5">Basis</p>
+          <p className="text-sm font-semibold text-white/70 num">{format(base)}</p>
         </div>
         <div className={cn(
           'flex items-center gap-1 rounded-lg px-2 py-1',
-          isPositive ? 'bg-positive-50' : isNegative ? 'bg-negative-50' : 'bg-ink-50'
+          isPositive ? 'bg-positive-500/10' : isNegative ? 'bg-negative-500/10' : 'bg-white/[0.06]'
         )}>
           <Icon className={cn(
             'h-3.5 w-3.5',
-            isPositive ? 'text-positive-600' : isNegative ? 'text-negative-600' : 'text-ink-400'
+            isPositive ? 'text-positive-400' : isNegative ? 'text-negative-400' : 'text-white/30'
           )} />
           <span className={cn(
             'text-sm font-bold num',
-            isPositive ? 'text-positive-700' : isNegative ? 'text-negative-600' : 'text-ink-500'
+            isPositive ? 'text-positive-400' : isNegative ? 'text-negative-400' : 'text-white/40'
           )}>
             {format(scenario)}
           </span>
@@ -135,19 +134,19 @@ export function ScenarioSimulator({ baseInputs, baseResults }: ScenarioSimulator
     scenario.vacancyMonths !== 0
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-card">
+    <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.04]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-ink-100 px-5 py-4">
+      <div className="flex items-center justify-between border-b border-white/[0.07] px-5 py-4">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50">
-            <Sliders className="h-4 w-4 text-brand-600" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500/10">
+            <Sliders className="h-4 w-4 text-brand-400" />
           </div>
-          <h3 className="text-sm font-semibold text-ink-900">Szenario-Simulator</h3>
+          <h3 className="text-sm font-semibold text-white">Szenario-Simulator</h3>
         </div>
         {hasChanges && (
           <button
             onClick={resetScenario}
-            className="flex items-center gap-1.5 rounded-xl border border-ink-200 px-3 py-1.5 text-xs font-medium text-ink-500 transition-all hover:border-ink-400 hover:text-ink-800"
+            className="flex items-center gap-1.5 rounded-xl border border-white/[0.10] px-3 py-1.5 text-xs font-medium text-white/50 transition-all hover:border-white/20 hover:text-white"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Zurücksetzen
@@ -158,14 +157,14 @@ export function ScenarioSimulator({ baseInputs, baseResults }: ScenarioSimulator
       <div className="p-5">
         {/* Preset buttons */}
         <div className="mb-5">
-          <p className="section-label mb-2.5">Schnell-Szenarien</p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-white/30 mb-2.5">Schnell-Szenarien</p>
           <div className="flex flex-wrap gap-2">
             {SCENARIO_PRESETS.map((preset) => (
               <button
                 key={preset.name}
                 onClick={() => setScenario(preset.scenario)}
                 title={preset.description}
-                className="rounded-xl border border-ink-200 bg-ink-50 px-3 py-1.5 text-xs font-medium text-ink-600 transition-all hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                className="rounded-xl border border-white/[0.10] bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-white/50 transition-all hover:border-brand-500/40 hover:bg-brand-500/10 hover:text-brand-400"
               >
                 {preset.name}
               </button>
@@ -206,7 +205,7 @@ export function ScenarioSimulator({ baseInputs, baseResults }: ScenarioSimulator
 
         {/* KPI Comparison */}
         <div>
-          <p className="section-label mb-3">Basis vs. Szenario</p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-white/30 mb-3">Basis vs. Szenario</p>
           <div className="grid grid-cols-2 gap-2.5">
             <KPICompare label="Monatl. Cashflow" base={baseResults.monthlyCashflow} scenario={scenarioResults.monthlyCashflow} format={fmtEur} />
             <KPICompare label="Nettomietrendite" base={baseResults.netRentalYield} scenario={scenarioResults.netRentalYield} format={fmtPct} />
@@ -215,11 +214,10 @@ export function ScenarioSimulator({ baseInputs, baseResults }: ScenarioSimulator
           </div>
         </div>
 
-        {/* Active scenario badge */}
         {hasChanges && (
-          <div className="mt-4 rounded-xl border border-brand-200 bg-brand-50 p-3.5">
-            <p className="text-xs font-semibold text-brand-700 mb-1.5">Aktives Szenario</p>
-            <div className="space-y-0.5 text-xs text-brand-600">
+          <div className="mt-4 rounded-xl border border-brand-500/30 bg-brand-500/10 p-3.5">
+            <p className="text-xs font-semibold text-brand-400 mb-1.5">Aktives Szenario</p>
+            <div className="space-y-0.5 text-xs text-brand-400/70">
               {scenario.interestRateChange !== 0 && (
                 <div>Zinsen: {scenario.interestRateChange > 0 ? '+' : ''}{scenario.interestRateChange.toFixed(1)}%</div>
               )}

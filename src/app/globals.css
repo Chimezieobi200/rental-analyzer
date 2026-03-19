@@ -232,6 +232,61 @@ input[type='range'] {
   border-radius: inherit;
 }
 
+/* ─── Dark Input (for dark backgrounds) ─────────────────────── */
+.input-dark {
+  width: 100%;
+  border-radius: var(--radius-input);
+  border: 1.5px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.input-dark::placeholder { color: rgba(255,255,255,0.25); }
+.input-dark:focus {
+  border-color: rgba(59,130,246,0.6);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+.input-dark option { background: #0F172A; color: #FFFFFF; }
+
+.input-group-dark {
+  display: flex;
+  border-radius: var(--radius-input);
+  border: 1.5px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input-group-dark:focus-within {
+  border-color: rgba(59,130,246,0.6);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+.input-group-dark input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #FFFFFF;
+  outline: none;
+}
+.input-group-dark input::placeholder { color: rgba(255,255,255,0.25); }
+.input-group-dark .suffix {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.04);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  white-space: nowrap;
+  user-select: none;
+}
+
 /* ─── Utilities ──────────────────────────────────────────────── */
 @layer utilities {
   .text-balance { text-wrap: balance; }

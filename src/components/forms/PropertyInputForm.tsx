@@ -54,14 +54,14 @@ function Tooltip({ text }: { text: string }) {
         type="button"
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-        className="text-ink-300 hover:text-ink-500 transition-colors"
+        className="text-white/30 hover:text-white/60 transition-colors"
       >
         <Info className="h-3.5 w-3.5" />
       </button>
       {show && (
-        <div className="absolute bottom-full left-1/2 z-20 mb-2 w-56 -translate-x-1/2 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-xs leading-relaxed text-ink-600 shadow-overlay">
+        <div className="absolute bottom-full left-1/2 z-20 mb-2 w-56 -translate-x-1/2 rounded-xl border border-white/[0.12] bg-ink-900 px-3 py-2.5 text-xs leading-relaxed text-white/70 shadow-overlay">
           {text}
-          <div className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-white" />
+          <div className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-ink-900" />
         </div>
       )}
     </div>
@@ -79,9 +79,9 @@ function FieldLabel({
 }) {
   return (
     <div className="mb-1.5 flex items-center gap-1.5">
-      <label className="text-xs font-medium text-ink-600">{label}</label>
+      <label className="text-xs font-medium text-white/60">{label}</label>
       {tooltip && <Tooltip text={tooltip} />}
-      {error && <span className="ml-auto text-[11px] text-negative-600">{error}</span>}
+      {error && <span className="ml-auto text-[11px] text-negative-400">{error}</span>}
     </div>
   )
 }
@@ -107,7 +107,7 @@ function NumberInput({
 }) {
   if (suffix) {
     return (
-      <div className={cn('input-group', hasError && 'border-negative-500 shadow-[0_0_0_3px_rgba(220,38,38,0.12)]')}>
+      <div className={cn('input-group-dark', hasError && 'border-negative-500 shadow-[0_0_0_3px_rgba(220,38,38,0.12)]')}>
         <input
           type="number"
           value={value || ''}
@@ -133,7 +133,7 @@ function NumberInput({
       step={step}
       min={min}
       className={cn(
-        'input-base text-sm tabular-nums num',
+        'input-dark text-sm tabular-nums num',
         hasError && 'border-negative-500'
       )}
     />
@@ -207,15 +207,15 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
     n.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-surface shadow-card">
+    <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.04] backdrop-blur-sm">
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-ink-100 px-5 py-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink-950">
-          <Calculator className="h-4 w-4 text-white" />
+      <div className="flex items-center gap-3 border-b border-white/[0.07] px-5 py-4">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.10]">
+          <Calculator className="h-4 w-4 text-white/70" />
         </div>
         <div>
-          <h2 className="text-sm font-semibold text-ink-900">Objektdaten</h2>
-          <p className="text-xs text-ink-400">4 Abschnitte ausfüllen</p>
+          <h2 className="text-sm font-semibold text-white">Objektdaten</h2>
+          <p className="text-xs text-white/40">4 Abschnitte ausfüllen</p>
         </div>
       </div>
 
@@ -226,29 +226,29 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
           const isLast = idx === sections.length - 1
 
           return (
-            <div key={section.id} className={cn(!isLast && 'border-b border-ink-100')}>
+            <div key={section.id} className={cn(!isLast && 'border-b border-white/[0.07]')}>
               {/* Section Toggle */}
               <button
                 type="button"
                 onClick={() => setOpenSection(isOpen ? null : section.id)}
                 className={cn(
                   'flex w-full items-center justify-between px-5 py-3.5 text-left transition-colors',
-                  isOpen ? 'bg-ink-50' : 'hover:bg-ink-50/60'
+                  isOpen ? 'bg-white/[0.05]' : 'hover:bg-white/[0.03]'
                 )}
                 aria-expanded={isOpen}
               >
                 <div className="flex items-center gap-3">
                   <div className={cn(
                     'flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold transition-colors',
-                    isOpen ? 'bg-ink-950 text-white' : 'bg-ink-100 text-ink-500'
+                    isOpen ? 'bg-white text-ink-950' : 'bg-white/[0.08] text-white/30'
                   )}>
                     {section.step}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Icon className={cn('h-3.5 w-3.5', isOpen ? 'text-ink-700' : 'text-ink-400')} />
+                    <Icon className={cn('h-3.5 w-3.5', isOpen ? 'text-white/70' : 'text-white/25')} />
                     <span className={cn(
                       'text-sm font-medium',
-                      isOpen ? 'text-ink-900' : 'text-ink-500'
+                      isOpen ? 'text-white' : 'text-white/40'
                     )}>
                       {section.title}
                     </span>
@@ -256,7 +256,7 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                 </div>
                 <ChevronDown
                   className={cn(
-                    'h-4 w-4 text-ink-400 transition-transform duration-200',
+                    'h-4 w-4 text-white/30 transition-transform duration-200',
                     isOpen && 'rotate-180'
                   )}
                 />
@@ -312,7 +312,7 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                               <input
                                 {...field}
                                 placeholder="München"
-                                className="input-base text-sm"
+                                className="input-dark text-sm"
                               />
                             </div>
                           )}
@@ -324,7 +324,7 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                         <select
                           value={watchedState}
                           onChange={(e) => handleStateChange(e.target.value)}
-                          className="input-base text-sm appearance-none"
+                          className="input-dark text-sm appearance-none"
                         >
                           {GERMAN_STATES.map((state) => (
                             <option key={state.name} value={state.name}>
@@ -356,14 +356,14 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                       </div>
 
                       {watchedPrice > 0 && (
-                        <div className="rounded-xl bg-ink-50 border border-ink-200 p-3.5">
+                        <div className="rounded-xl border border-white/[0.08] bg-white/[0.05] p-3.5">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs text-ink-500">Gesamte Nebenkosten</span>
-                            <span className="text-xs text-ink-400">
+                            <span className="text-xs text-white/40">Gesamte Nebenkosten</span>
+                            <span className="text-xs text-white/30">
                               {((buyingCosts / watchedPrice) * 100).toFixed(1)}% des KP
                             </span>
                           </div>
-                          <div className="mt-1 text-lg font-bold text-ink-900 num">{fmt(buyingCosts)}</div>
+                          <div className="mt-1 text-lg font-bold text-white num">{fmt(buyingCosts)}</div>
                         </div>
                       )}
                     </>
@@ -402,14 +402,14 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                       )} />
 
                       {watchedPrice > 0 && (
-                        <div className="rounded-xl bg-ink-50 border border-ink-200 p-3.5 space-y-1">
+                        <div className="rounded-xl border border-white/[0.08] bg-white/[0.05] p-3.5 space-y-1">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs text-ink-500">Darlehensbetrag</span>
-                            <span className="text-xs text-ink-400">
+                            <span className="text-xs text-white/40">Darlehensbetrag</span>
+                            <span className="text-xs text-white/30">
                               Beleihung: {watchedPrice > 0 ? (Math.max(0, (watchedPrice + buyingCosts) - watch('equity')) / watchedPrice * 100).toFixed(1) : 0}%
                             </span>
                           </div>
-                          <div className="text-lg font-bold text-ink-900 num">
+                          <div className="text-lg font-bold text-white num">
                             {fmt(Math.max(0, (watchedPrice + buyingCosts) - watch('equity')))}
                           </div>
                         </div>
@@ -435,9 +435,9 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
                       )} />
 
                       {watchedPrice > 0 && watch('monthlyRent') > 0 && (
-                        <div className="rounded-xl bg-ink-50 border border-ink-200 p-3.5">
-                          <span className="text-xs text-ink-500">Brutto-Mietrendite</span>
-                          <div className="mt-1 text-lg font-bold text-ink-900 num">
+                        <div className="rounded-xl border border-white/[0.08] bg-white/[0.05] p-3.5">
+                          <span className="text-xs text-white/40">Brutto-Mietrendite</span>
+                          <div className="mt-1 text-lg font-bold text-white num">
                             {((watch('monthlyRent') * 12 / watchedPrice) * 100).toFixed(2).replace('.', ',')} %
                           </div>
                         </div>
@@ -490,14 +490,14 @@ export function PropertyInputForm({ onCalculate, isCalculating }: PropertyInputF
             disabled={isCalculating}
             className={cn(
               'group flex w-full items-center justify-center gap-2.5 rounded-xl py-3.5 text-sm font-semibold transition-all duration-150',
-              'bg-ink-950 text-white shadow-btn-dark',
-              'hover:bg-ink-800 hover:-translate-y-0.5 hover:shadow-lg',
+              'bg-white text-ink-950',
+              'hover:bg-white/90 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(255,255,255,0.15)]',
               'disabled:cursor-not-allowed disabled:opacity-50 disabled:translate-y-0'
             )}
           >
             {isCalculating ? (
               <>
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-ink-300 border-t-ink-950" />
                 Berechnung läuft...
               </>
             ) : (
