@@ -131,7 +131,7 @@ export function DealScoreWidget({
               className="transition-all duration-700 ease-out"
             />
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+          <div className="absolute inset-0 flex flex-col items-center justify-center leading-none -translate-y-3">
             <span className="text-4xl font-extrabold num tracking-tight text-ink-900">
               {clamped}
             </span>
